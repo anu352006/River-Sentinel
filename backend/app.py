@@ -183,15 +183,28 @@ def chat():
         if not groq_client:
             return jsonify({'response': 'Error: Groq API key is missing. Please add GROQ_API_KEY to your .env file to use the chatbot for free.'})
 
-        response = groq_client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
-            messages=[
-                {'role': 'system', 'content': system_prompt},
-                {'role': 'user', 'content': query}
-            ],
-            temperature=0.7,
-            max_tokens=1024
-        )
+        # Try qwen multimodal model, fallback to gpt-oss
+        chat_model = 'qwen/qwen3.8-27b'
+        try:
+            response = groq_client.chat.completions.create(
+                model=chat_model,
+                messages=[
+                    {'role': 'system', 'content': system_prompt},
+                    {'role': 'user', 'content': query}
+                ],
+                temperature=0.7,
+                max_tokens=1024
+            )
+        except Exception:
+            response = groq_client.chat.completions.create(
+                model='openai/gpt-oss-120b',
+                messages=[
+                    {'role': 'system', 'content': system_prompt},
+                    {'role': 'user', 'content': query}
+                ],
+                temperature=0.7,
+                max_tokens=1024
+            )
         response_text = response.choices[0].message.content
         print(f"[DEBUG] Response generated in {language} via Groq: {response_text[:100]}...")
         return jsonify({'response': response_text})
@@ -735,7 +748,7 @@ def analyze_image():
                     ],
                 }
             ],
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            model="qwen/qwen3.8-27b",
             temperature=0.1,
             max_tokens=1024,
             top_p=1,

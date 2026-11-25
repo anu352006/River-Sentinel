@@ -45,7 +45,7 @@ const ManageReports = () => {
                 );
                 
                 // Also update selected report if modal is open
-                setSelectedReport(prev => {
+                setSelectedReport((prev: any) => {
                     if (prev?.id === reportId) {
                         return { ...prev, status: status.toUpperCase() };
                     }

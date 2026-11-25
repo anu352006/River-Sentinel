@@ -26,9 +26,12 @@ interface FloodPrediction {
     reasons: string[];
     sensor_data: {
         water_level: number;
-        discharge_cumec: number;
-        rain_local_avg_mm: number;
-        rain_upstream_avg_mm: number;
+        discharge: number;
+        discharge_cumec?: number;
+        rain_local: number;
+        rain_local_avg_mm?: number;
+        rain_upstream: number;
+        rain_upstream_avg_mm?: number;
         temperature: number;
         humidity: number;
         bod?: number;
