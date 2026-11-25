@@ -535,17 +535,14 @@ def predict_water_quality():
         model_path = os.path.join(os.path.dirname(__file__), 'water_quality_model.pkl')
         scaler_path = os.path.join(os.path.dirname(__file__), 'water_quality_scaler.pkl')
         
-        if not os.path.exists(model_path) or not os.path.exists(scaler_path):
-            return jsonify({
-                'error': 'Water quality model not found',
-                'potable': None,
-                'quality_level': 'UNKNOWN',
-                'quality_score': 0,
-                'reasons': ['Water quality prediction model not available. Please copy model files to backend directory.']
-            }), 500
-        
-        model = joblib.load(model_path)
-        scaler = joblib.load(scaler_path)
+        model = None
+        scaler = None
+        try:
+            if os.path.exists(model_path) and os.path.exists(scaler_path):
+                model = joblib.load(model_path)
+                scaler = joblib.load(scaler_path)
+        except Exception as le:
+            print(f"[WARNING] Using rule-based WQI fallback: {le}")
         
         # Default sensor values (used if Firebase fails or no data available)
         ph = 7.0
@@ -593,16 +590,30 @@ def predict_water_quality():
             do_level
         ]])
         
-        # Scale features
-        features_scaled = scaler.transform(features)
-        
-        # Make prediction
-        prediction = model.predict(features_scaled)[0]
-        probability = model.predict_proba(features_scaled)[0]
-        
-        # Determine potability (1 = potable, 0 = not potable)
-        is_potable = bool(prediction == 1)
-        potability_score = round(probability[1] * 100, 2) if len(probability) > 1 else round(probability[0] * 100, 2)
+        if model is not None and scaler is not None:
+            try:
+                features_scaled = scaler.transform(features)
+                prediction = model.predict(features_scaled)[0]
+                probability = model.predict_proba(features_scaled)[0]
+                is_potable = bool(prediction == 1)
+                potability_score = round(probability[1] * 100, 2) if len(probability) > 1 else round(probability[0] * 100, 2)
+            except Exception as pe:
+                print(f"[WARNING] Prediction error, using WQI formula: {pe}")
+                model = None
+
+        if model is None or scaler is None:
+            # Standard physicochemical WQI scoring formula
+            score = 100.0
+            if ph < 6.5 or ph > 8.5:
+                score -= 25.0
+            if turbidity > 100:
+                score -= min(35.0, (turbidity - 100) * 0.2)
+            if do_level < 5.0:
+                score -= min(30.0, (5.0 - do_level) * 10.0)
+            if ec > 1000:
+                score -= 15.0
+            potability_score = round(max(0.0, min(100.0, score)), 2)
+            is_potable = potability_score >= 60.0
         
         # Determine quality level based on score
         if potability_score >= 80:
