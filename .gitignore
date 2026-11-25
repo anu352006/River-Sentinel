@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment & Secrets
+.env
+.env*
+*.env
+!.env.example
+serviceAccountKey.json
+
+# Next.js & Build Outputs
+.next/
+out/
+build/
+dist/
+*.egg-info/
+
+# Local database fallbacks & runtime caches
+local_*.json
+backend/local_*.json
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Diagnostics
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
