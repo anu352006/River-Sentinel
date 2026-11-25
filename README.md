@@ -12,6 +12,9 @@
 [![Arduino](https://img.shields.io/badge/Arduino%20%2F%20ESP32-IoT-00979D?style=for-the-badge&logo=arduino)](https://www.arduino.cc/)
 
 > **RiverSentinel** is a geospatially-intelligent environmental surveillance, flood forecasting, and water quality intelligence platform. Combining IoT sensor hardware, satellite and hydrological telemetry, computer vision pollution detection, and machine learning models, RiverSentinel bridges citizen reporting with environmental authority governance.
+>
+> 🚀 **Live Production Deployment**: [https://river-sentinel-ai.vercel.app](https://river-sentinel-ai.vercel.app) (Mirror: [river-sentinel-portal.vercel.app](https://river-sentinel-portal.vercel.app))
+> ⚡ **Cloud Backend API**: [https://backend-three-roan-26.vercel.app](https://backend-three-roan-26.vercel.app)
 
 ---
 
