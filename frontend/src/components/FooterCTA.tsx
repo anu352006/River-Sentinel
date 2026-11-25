@@ -21,7 +21,7 @@ const FooterCTA = () => {
                             <span>🌊</span>
                             <span>RiverSentinel 2.0</span>
                         </div>
-                        <p style={{ opacity: 0.7 }}>India&apos;s first geospatially-intelligent river protection system, monitoring the Ganges with AI and IoT.</p>
+                        <p style={{ opacity: 0.7 }}>India&apos;s first geospatially-intelligent river protection system, monitoring the Cauvery Delta & South Indian Ghats with AI and IoT.</p>
                     </div>
                     <div>
                         <h4 style={{ marginBottom: '1.5rem' }}>Quick Links</h4>
@@ -33,11 +33,12 @@ const FooterCTA = () => {
                         </ul>
                     </div>
                     <div>
-                        <h4 style={{ marginBottom: '1.5rem' }}>Contact</h4>
+                        <h4 style={{ marginBottom: '1.5rem' }}>Contact & Regional HQ</h4>
                         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', opacity: 0.7 }}>
-                            <li>Varanasi, Uttar Pradesh, India</li>
-                            <li>info@riversentinel.org</li>
-                            <li>+91 (542) 234-5678</li>
+                            <li>Cauvery Basin Division, Trichy & Chennai</li>
+                            <li>Tamil Nadu, India</li>
+                            <li>contact@riversentinel.org</li>
+                            <li>+91 (0431) 240-5678 / +91 (044) 2235-1077</li>
                         </ul>
                     </div>
                 </div>
